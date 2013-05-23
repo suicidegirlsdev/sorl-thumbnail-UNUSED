@@ -66,7 +66,7 @@ class Engine(EngineBase):
                            width + x_offset, height + y_offset))
 
     def _get_raw_data(self, image, format_, quality, progressive=False):
-        ImageFile.MAXBLOCK = 2048 * 2048
+        ImageFile.MAXBLOCK = 1024 * 1024
         buf = StringIO()
         params = {
             'format': format_,
@@ -78,6 +78,7 @@ class Engine(EngineBase):
         try:
             image.save(buf, **params)
         except IOError:
+            ImageFile.MAXBLOCK = 2048 * 2048
             params.pop('optimize')
             image.save(buf, **params)
         raw_data = buf.getvalue()
