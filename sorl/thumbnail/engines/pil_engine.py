@@ -78,7 +78,6 @@ class Engine(EngineBase):
         try:
             image.save(buf, **params)
         except IOError:
-            ImageFile.MAXBLOCK = 2048 * 2048
             params.pop('optimize')
             image.save(buf, **params)
         raw_data = buf.getvalue()
