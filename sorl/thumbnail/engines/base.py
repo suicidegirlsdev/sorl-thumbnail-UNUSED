@@ -66,11 +66,13 @@ class EngineBase(object):
         """
         format_ = options['format']
         quality = options['quality']
+        image_info = options['image_info']
         # additional non-default-value options:
         progressive = options.get('progressive', settings.THUMBNAIL_PROGRESSIVE)
         raw_data = self._get_raw_data(image, format_, quality,
-            progressive=progressive
-            )
+                                      image_info=image_info,
+                                      progressive=progressive
+        )
         thumbnail.write(raw_data)
 
     def get_image_ratio(self, image):
@@ -79,6 +81,12 @@ class EngineBase(object):
         """
         x, y = self.get_image_size(image)
         return float(x) / y
+
+    def get_image_info(self, image):
+        """
+        Returns metadata of an ImageFile instance
+        """
+        return {}
 
     #
     # Methods which engines need to implement
@@ -130,7 +138,7 @@ class EngineBase(object):
         """
         raise NotImplemented()
 
-    def _get_raw_data(self, image, format_, quality, progressive=False):
+    def _get_raw_data(self, image, format_, quality, image_info=None, progressive=False):
         """
         Gets raw data given the image, format and quality. This method is
         called from :meth:`write`
