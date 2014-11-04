@@ -68,7 +68,7 @@ class Engine(EngineBase):
         return image.crop((x_offset, y_offset,
                            width + x_offset, height + y_offset))
 
-    def _get_raw_data(self, image, format_, quality, progressive=False):
+    def _get_raw_data(self, image, format_, quality, image_info, progressive=False):
         ImageFile.MAXBLOCK = 1024 * 1024
         buf = StringIO()
         params = {
